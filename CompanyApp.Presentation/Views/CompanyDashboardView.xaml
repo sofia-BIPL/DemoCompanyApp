@@ -1,0 +1,35 @@
+<Window x:Class="CompanyApp.Presentation.Views.CompanyDashboardView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding CompanyTitle}" Height="500" Width="400"
+        WindowStartupLocation="CenterScreen">
+    
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- Header -->
+            <RowDefinition Height="*"/>    <!-- Buttons -->
+            <RowDefinition Height="Auto"/> <!-- Footer -->
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Dashboard" FontSize="26" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Margin="0,0,0,20"/>
+        
+        <StackPanel Grid.Row="1" VerticalAlignment="Center">
+            <!-- Create Section -->
+            <TextBlock Text="Actions" FontWeight="SemiBold" Margin="5,0,0,5" Foreground="{StaticResource TextDark}"/>
+            <Button Content="Create Account" Command="{Binding CreateAccountCommand}" Height="40" Margin="0,0,0,10"/>
+            <Button Content="Create User" Command="{Binding CreateUserCommand}" Height="40" Margin="0,0,0,10"/>
+
+            <Separator Margin="0,15"/>
+
+            <!-- Load Section -->
+            <TextBlock Text="View Data" FontWeight="SemiBold" Margin="5,0,0,5" Foreground="{StaticResource TextDark}"/>
+            <Button Content="Load Account" Command="{Binding LoadAccountCommand}" Height="40" Margin="0,0,0,10"/>
+            <Button Content="Load User" Command="{Binding LoadUserCommand}" Height="40" Margin="0,0,0,10"/>
+        </StackPanel>
+
+        <!-- Close -->
+        <Button Grid.Row="2" Content="Close Company" Command="{Binding CloseCompanyCommand}" 
+                Background="#FFB7C5" FontWeight="Bold" Height="40" Margin="0,20,0,0"/>
+    </Grid>
+</Window>
