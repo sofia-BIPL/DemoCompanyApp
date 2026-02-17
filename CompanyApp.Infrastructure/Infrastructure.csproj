@@ -62,9 +62,9 @@
     <Compile Include="Repository\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CompanyApp.Domain\CompanyApp.Domain.csproj">
+    <ProjectReference Include="..\CompanyApp.Domain\Domain.csproj">
       <Project>{a4e9b227-469b-4385-82c0-2ec673d1ec0b}</Project>
-      <Name>CompanyApp.Domain</Name>
+      <Name>Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

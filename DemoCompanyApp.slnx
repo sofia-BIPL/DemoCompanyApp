@@ -1,6 +1,6 @@
 <Solution>
-  <Project Path="CompanyApp.Application/CompanyApp.Application.csproj" Id="2e0d6fab-c6ab-47a3-989c-1d1f17795ea2" />
-  <Project Path="CompanyApp.Domain/CompanyApp.Domain.csproj" Id="a4e9b227-469b-4385-82c0-2ec673d1ec0b" />
-  <Project Path="CompanyApp.Infrastructure/CompanyApp.Infrastructure.csproj" Id="f3e74fa3-89cf-4074-b90a-cb67dcb38dc8" />
-  <Project Path="CompanyApp.Presentation/CompanyApp.Presentation.csproj" Id="444e5032-6ceb-46fe-be43-97926f9fa761" />
+  <Project Path="CompanyApp.Application/Application.csproj" Id="2e0d6fab-c6ab-47a3-989c-1d1f17795ea2" />
+  <Project Path="CompanyApp.Domain/Domain.csproj" Id="a4e9b227-469b-4385-82c0-2ec673d1ec0b" />
+  <Project Path="CompanyApp.Infrastructure/Infrastructure.csproj" Id="f3e74fa3-89cf-4074-b90a-cb67dcb38dc8" />
+  <Project Path="CompanyApp.Presentation/Presentation.csproj" Id="444e5032-6ceb-46fe-be43-97926f9fa761" />
 </Solution>
