@@ -10,7 +10,7 @@ using CompanyApp.Presentation.Commands;
 
 namespace CompanyApp.Presentation.ViewModels
 {
-    public class LoadCompanyViewModel : INotifyPropertyChanged
+    public class LoadCompanyViewModel : ViewModelBase
     {
         private readonly CompanyService _companyService;
         private readonly UserService _userService;
@@ -30,16 +30,11 @@ namespace CompanyApp.Presentation.ViewModels
             { 
                 _selectedCompany = value; 
                 OnPropertyChanged(); 
-                // CommandManager.InvalidateRequerySuggested() happens automatically with RelayCommand implementation
             }
         }
 
         public ICommand OpenCommand { get; set; }
         public ICommand GoBackCommand { get; set; }
-
-        public event Action RequestClose;
-        public event Action<int> OpenCompanyDashboardRequested; // CompanyId
-        public event Action<int> OpenLoginRequested; // CompanyId
 
         public LoadCompanyViewModel()
         {
@@ -71,16 +66,13 @@ namespace CompanyApp.Presentation.ViewModels
                 if (userExists)
                 {
                     // If users exist, go to Login Page
-                    OpenLoginRequested?.Invoke(SelectedCompany.PK_Comp_Id);
+                    Navigation?.NavigateTo<LoginViewModel>();
                 }
                 else
                 {
                     // If NO users exist, go directly to Dashboard
-                    OpenCompanyDashboardRequested?.Invoke(SelectedCompany.PK_Comp_Id);
+                    Navigation?.NavigateTo<CompanyDashboardViewModel>();
                 }
-                
-                // Fire RequestClose event
-                RequestClose?.Invoke();
             }
             catch (Exception ex)
             {
@@ -90,13 +82,8 @@ namespace CompanyApp.Presentation.ViewModels
 
         private void GoBack(object obj)
         {
-            RequestClose?.Invoke();
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            Navigation?.NavigateTo<MainMenuViewModel>();
         }
     }
 }
+

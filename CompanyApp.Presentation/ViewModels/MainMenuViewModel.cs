@@ -21,15 +21,11 @@ using CompanyApp.Presentation.Commands;
 
 namespace CompanyApp.Presentation.ViewModels
 {
-    public class MainMenuViewModel
+    public class MainMenuViewModel : ViewModelBase
     {
         // Commands bound to buttons in View
         public ICommand CreateCompanyCommand { get; set; }
         public ICommand LoadCompanyCommand { get; set; }
-
-        // Navigation events (View will subscribe to these)
-        public event Action OpenCreateCompanyRequested;
-        public event Action OpenLoadCompanyRequested;
 
         public MainMenuViewModel()
         {
@@ -39,12 +35,12 @@ namespace CompanyApp.Presentation.ViewModels
 
         private void OpenCreateCompany(object obj)
         {
-            OpenCreateCompanyRequested?.Invoke();
+            Navigation?.NavigateTo<CreateCompanyViewModel>();
         }
 
         private void OpenLoadCompany(object obj)
         {
-            OpenLoadCompanyRequested?.Invoke();
+            Navigation?.NavigateTo<LoadCompanyViewModel>();
         }
     }
 }

@@ -8,10 +8,9 @@ using CompanyApp.Presentation.Commands;
 
 namespace CompanyApp.Presentation.ViewModels
 {
-    public class LoginViewModel : INotifyPropertyChanged
+    public class LoginViewModel : ViewModelBase
     {
         private readonly UserService _userService;
-        private readonly int _companyId;
 
         private string _username;
         public string Username
@@ -30,12 +29,8 @@ namespace CompanyApp.Presentation.ViewModels
         public ICommand LoginCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
-        public event Action RequestClose;
-        public event Action LoginSuccessful;
-
-        public LoginViewModel(int companyId)
+        public LoginViewModel()
         {
-            _companyId = companyId;
             _userService = new UserService();
             
             LoginCommand = new RelayCommand(Login, CanLogin);
@@ -51,12 +46,13 @@ namespace CompanyApp.Presentation.ViewModels
         {
             try
             {
-                string result = _userService.Authenticate(Username, Password, _companyId);
+                // Using SessionGlobal.Comp_Id instead of passed argument
+                string result = _userService.Authenticate(Username, Password, CompanyApp.Domain.GlobalVar.SessionGlobal.Comp_Id);
 
                 if (result == "Success")
                 {
-                    MessageBox.Show("Login Successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                    LoginSuccessful?.Invoke();
+                    MessageBox.Show("Login Successful!", "Success", MessageBoxButton.OK);
+                    Navigation?.NavigateTo<CompanyDashboardViewModel>();
                 }
                 else
                 {
@@ -71,13 +67,8 @@ namespace CompanyApp.Presentation.ViewModels
 
         private void Cancel(object obj)
         {
-            RequestClose?.Invoke();
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            Navigation?.NavigateTo<LoadCompanyViewModel>();
         }
     }
 }
+

@@ -16,6 +16,7 @@
 using System.Windows;
 using CompanyApp.Presentation.ViewModels;
 using CompanyApp.Presentation.Views;
+using CompanyApp.Presentation.Navigation;
 
 namespace CompanyApp.Presentation
 {
@@ -25,26 +26,8 @@ namespace CompanyApp.Presentation
         {
             InitializeComponent();
 
-            MainMenuViewModel vm = new MainMenuViewModel();
-
-            vm.OpenCreateCompanyRequested += OpenCreateCompanyView;
-            vm.OpenLoadCompanyRequested += OpenLoadCompanyView;
-
-            this.DataContext = vm;
-        }
-
-        private void OpenCreateCompanyView()
-        {
-            CreateCompanyView view = new CreateCompanyView();
-            view.Show();
-            this.Close();
-        }
-
-        private void OpenLoadCompanyView()
-        {
-            LoadCompanyView view = new LoadCompanyView();
-            view.Show();
-            this.Close();
+            INavigationService navigationService = new NavigationService();
+            this.DataContext = new MainViewModel(navigationService);
         }
     }
 }

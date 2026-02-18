@@ -2,6 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:CompanyApp.Presentation"
+             xmlns:vm="clr-namespace:CompanyApp.Presentation.ViewModels"
+             xmlns:views="clr-namespace:CompanyApp.Presentation.Views"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <!-- Color Palette -->
@@ -46,5 +48,43 @@
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="{StaticResource TextDark}"/>
         </Style>
+
+        <!-- Data Templates for Navigation -->
+        <DataTemplate DataType="{x:Type vm:MainMenuViewModel}">
+            <views:MainMenuView/>
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type vm:CreateCompanyViewModel}">
+            <views:CreateCompanyView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:LoadCompanyViewModel}">
+            <views:LoadCompanyView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:CompanyDashboardViewModel}">
+            <views:CompanyDashboardView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:CreateUserViewModel}">
+            <views:CreateUserView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:LoadUserViewModel}">
+            <views:LoadUserView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:LoginViewModel}">
+            <views:LoginView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:CreateAccountViewModel}">
+            <views:CreateAccountView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:LoadAccountViewModel}">
+            <views:LoadAccountView/>
+        </DataTemplate>
+
     </Application.Resources>
 </Application>

@@ -9,7 +9,7 @@ using CompanyApp.Presentation.Commands;
 
 namespace CompanyApp.Presentation.ViewModels
 {
-    public class CreateCompanyViewModel : INotifyPropertyChanged
+    public class CreateCompanyViewModel : ViewModelBase
     {
         private readonly CompanyService _companyService;
 
@@ -46,9 +46,6 @@ namespace CompanyApp.Presentation.ViewModels
         public ICommand SaveCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
-        // Events for View navigation
-        public event Action RequestClose;
-
         public CreateCompanyViewModel()
         {
             _companyService = new CompanyService();
@@ -69,8 +66,6 @@ namespace CompanyApp.Presentation.ViewModels
         {
             try
             {
-                MessageBox.Show("Starting save process...", "Debug", MessageBoxButton.OK, MessageBoxImage.Information);
-                
                 var dto = new CompanyDTO
                 {
                     Comp_Name = CompName,
@@ -79,44 +74,21 @@ namespace CompanyApp.Presentation.ViewModels
                     Comp_State = CompState
                 };
 
-                MessageBox.Show($"DTO Created:\nName: {dto.Comp_Name}\nGSTIN: {dto.Comp_GSTIN}\nCountry: {dto.Comp_Country}\nState: {dto.Comp_State}", "Debug", MessageBoxButton.OK, MessageBoxImage.Information);
-
                 _companyService.SaveCompany(dto);
 
-                MessageBox.Show("Service.SaveCompany completed!", "Debug", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                MessageBox.Show("Company Created Successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                RequestClose?.Invoke(); // Trigger close event
+                MessageBox.Show("Company Created Successfully!", "Success", MessageBoxButton.OK);
+                Navigation?.NavigateTo<MainMenuViewModel>(); 
             }
             catch (Exception ex)
             {
-                string errorMessage = $"Error creating company:\n\n{ex.Message}";
-                
-                if (ex.InnerException != null)
-                {
-                    errorMessage += $"\n\nInner Error:\n{ex.InnerException.Message}";
-                    
-                    if (ex.InnerException.InnerException != null)
-                    {
-                        errorMessage += $"\n\nDeeper Error:\n{ex.InnerException.InnerException.Message}";
-                    }
-                }
-                
-                errorMessage += $"\n\nStack Trace:\n{ex.StackTrace}";
-                
-                MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error creating company: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void Cancel(object obj)
         {
-            RequestClose?.Invoke();
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            Navigation?.NavigateTo<MainMenuViewModel>();
         }
     }
 }
+

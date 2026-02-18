@@ -9,7 +9,7 @@ using CompanyApp.Presentation.Commands;
 
 namespace CompanyApp.Presentation.ViewModels
 {
-    public class CreateUserViewModel : INotifyPropertyChanged
+    public class CreateUserViewModel : ViewModelBase
     {
         private readonly UserService _userService;
 
@@ -29,8 +29,6 @@ namespace CompanyApp.Presentation.ViewModels
 
         public ICommand SaveCommand { get; set; }
         public ICommand CancelCommand { get; set; }
-
-        public event Action RequestClose;
 
         public CreateUserViewModel()
         {
@@ -63,13 +61,12 @@ namespace CompanyApp.Presentation.ViewModels
                 {
                     User_Name = UserName,
                     User_Password = UserPassword
-                    // FK_Comp_Id is handled in UserService using SessionGlobal
                 };
 
                 _userService.SaveUser(dto);
 
-                MessageBox.Show("User Created Successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                RequestClose?.Invoke();
+                MessageBox.Show("User Created Successfully!", "Success", MessageBoxButton.OK);
+                Navigation?.NavigateTo<CompanyDashboardViewModel>();
             }
             catch (Exception ex)
             {
@@ -79,13 +76,8 @@ namespace CompanyApp.Presentation.ViewModels
 
         private void Cancel(object obj)
         {
-            RequestClose?.Invoke();
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            Navigation?.NavigateTo<CompanyDashboardViewModel>();
         }
     }
 }
+

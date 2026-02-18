@@ -9,7 +9,7 @@ using CompanyApp.Presentation.Commands;
 
 namespace CompanyApp.Presentation.ViewModels
 {
-    public class CreateAccountViewModel : INotifyPropertyChanged
+    public class CreateAccountViewModel : ViewModelBase
     {
         private readonly AccountService _accountService;
 
@@ -37,8 +37,6 @@ namespace CompanyApp.Presentation.ViewModels
         public ICommand SaveCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
-        public event Action RequestClose;
-
         public CreateAccountViewModel()
         {
             _accountService = new AccountService();
@@ -55,55 +53,28 @@ namespace CompanyApp.Presentation.ViewModels
         {
             try
             {
-                // Debug: Show current session values
-                MessageBox.Show(
-                    $"Current Session:\nCompany ID: {CompanyApp.Domain.GlobalVar.SessionGlobal.Comp_Id}\nUser ID: {CompanyApp.Domain.GlobalVar.SessionGlobal.User_Id}", 
-                    "Debug - Session Info", 
-                    MessageBoxButton.OK, 
-                    MessageBoxImage.Information);
-
                 var dto = new AccountDTO
                 {
                     Acc_Name = AccountName,
                     Acc_Group = AccountGroup,
                     Acc_Balance = AccountBalance
-                    // FK_User_Id and FK_Comp_Id are handled in AccountService using SessionGlobal
                 };
 
                 _accountService.SaveAccount(dto);
 
-                MessageBox.Show("Account Created Successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                RequestClose?.Invoke();
+                MessageBox.Show("Account Created Successfully!", "Success", MessageBoxButton.OK);
+                Navigation?.NavigateTo<CompanyDashboardViewModel>();
             }
             catch (Exception ex)
             {
-                string errorMessage = $"Error creating account: {ex.Message}";
-                
-                if (ex.InnerException != null)
-                {
-                    errorMessage += $"\n\nInner Exception:\n{ex.InnerException.Message}";
-                    
-                    if (ex.InnerException.InnerException != null)
-                    {
-                        errorMessage += $"\n\nDeeper Exception:\n{ex.InnerException.InnerException.Message}";
-                    }
-                }
-                
-                errorMessage += $"\n\nStack Trace:\n{ex.StackTrace}";
-                
-                MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error creating account: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void Cancel(object obj)
         {
-            RequestClose?.Invoke();
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            Navigation?.NavigateTo<CompanyDashboardViewModel>();
         }
     }
 }
+

@@ -9,7 +9,7 @@ using CompanyApp.Presentation.Commands;
 
 namespace CompanyApp.Presentation.ViewModels
 {
-    public class CompanyDashboardViewModel : INotifyPropertyChanged
+    public class CompanyDashboardViewModel : ViewModelBase
     {
         private readonly CompanyService _companyService;
         private string _companyTitle;
@@ -26,20 +26,12 @@ namespace CompanyApp.Presentation.ViewModels
         public ICommand LoadUserCommand { get; set; }
         public ICommand CloseCompanyCommand { get; set; }
 
-        // Navigation Events
-        public event Action RequestCreateAccount;
-        public event Action RequestCreateUser;
-        public event Action RequestLoadAccount;
-        public event Action RequestLoadUser;
-        public event Action RequestCloseCompany;
-
         public CompanyDashboardViewModel()
         {
             _companyService = new CompanyService();
             
             // Set Title
             CompanyTitle = $"Company Dashboard (ID: {SessionGlobal.Comp_Id})"; 
-            // Ideally we would fetch the company name here using the ID, but for now ID is sufficient to show context.
 
             CreateAccountCommand = new RelayCommand(ExecuteCreateAccount);
             CreateUserCommand = new RelayCommand(ExecuteCreateUser);
@@ -50,22 +42,22 @@ namespace CompanyApp.Presentation.ViewModels
 
         private void ExecuteCreateAccount(object obj)
         {
-            RequestCreateAccount?.Invoke();
+            Navigation?.NavigateTo<CreateAccountViewModel>();
         }
 
         private void ExecuteCreateUser(object obj)
         {
-            RequestCreateUser?.Invoke();
+            Navigation?.NavigateTo<CreateUserViewModel>();
         }
 
         private void ExecuteLoadAccount(object obj)
         {
-            RequestLoadAccount?.Invoke();
+            Navigation?.NavigateTo<LoadAccountViewModel>();
         }
 
         private void ExecuteLoadUser(object obj)
         {
-            RequestLoadUser?.Invoke();
+            Navigation?.NavigateTo<LoadUserViewModel>();
         }
 
         private void ExecuteCloseCompany(object obj)
@@ -73,18 +65,13 @@ namespace CompanyApp.Presentation.ViewModels
             try
             {
                 _companyService.CloseCompany();
-                RequestCloseCompany?.Invoke();
+                Navigation?.NavigateTo<MainMenuViewModel>();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error closing company: {ex.Message}", "Error");
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
     }
 }
+

@@ -2,9 +2,9 @@ using System.Windows.Controls;
 
 namespace CompanyApp.Presentation.Views
 {
-    public partial class CreateAccountView : UserControl
+    public partial class MainMenuView : UserControl
     {
-        public CreateAccountView()
+        public MainMenuView()
         {
             InitializeComponent();
         }

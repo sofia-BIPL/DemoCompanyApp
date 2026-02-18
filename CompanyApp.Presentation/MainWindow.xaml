@@ -4,16 +4,6 @@
         Title="Company Accounting App" Height="450" Width="800"
         WindowStartupLocation="CenterScreen">
     <Grid>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="Welcome" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,30"/>
-            
-            <Button Content="Create Company" 
-                    Command="{Binding CreateCompanyCommand}" 
-                    Width="200" Height="50" Margin="0,0,0,20" FontSize="16"/>
-            
-            <Button Content="Load Company" 
-                    Command="{Binding LoadCompanyCommand}" 
-                    Width="200" Height="50" FontSize="16"/>
-        </StackPanel>
+        <ContentControl Content="{Binding CurrentViewModel}" />
     </Grid>
 </Window>
